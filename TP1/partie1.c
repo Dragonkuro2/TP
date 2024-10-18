@@ -196,7 +196,19 @@ int main() {
 				tail = modifie_livres(tail)
 				break;
 			case 4:
-				printf("the function isn't working yet :(\n");
+				int id;
+				struct livre *current;
+				printf("entrer l'id de votre livre: ");
+				scanf("%d", &id);
+				current = recherche_livre(tail, id);
+				if (current) {
+					printf("l'element a ete trover\n");
+					printf("le titre de livre est: %s", current->title);
+					printf("l'author de livre est: %s", current->athor);
+					printf("le livre est: %s\n", current->disponible ? "disponible" : "non-disponible");
+				} else {
+					printf("le livre n'exist pas!\n");
+				}
 				break;
 			case 5:
 				afficher_livre(tail);
