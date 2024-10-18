@@ -57,14 +57,14 @@ void afficher_livre(struct livre *tail) {
 		printf("la liste est vide!\n");
 	} else {
 		struct livre *current = tail;
-		while(current != tail) {
+		do {
 			printf("l'id de livre est: %d\n", current->ID);
 			printf("le titre de livre est: %s\n", current->title);
 			printf("l'auteur de livre est: %s\n", current->author);
 			printf("le livre est: %s\n", current->disponible ? "disponible" : "non-disponible");
 
 			current = current->next;
-		}
+		} while(current != tail->next);
 	}
 }
 
