@@ -51,6 +51,23 @@ struct livre *ajouter_livre(struct livre *tail) {
 	}
 }
 
+
+void afficher_livre(struct livre *tail) {
+	if (!tail) {
+		printf("la liste est vide!\n");
+	} else {
+		struct livre *current = tail;
+		while(current != tail) {
+			printf("l'id de livre est: %d\n", current->ID);
+			printf("le titre de livre est: %s\n", current->title);
+			printf("l'auteur de livre est: %s\n", current->author);
+			printf("le livre est: %s\n", current->disponible ? "disponible" : "non-disponible");
+
+			current = current->next;
+		}
+	}
+}
+
 int main() {
 	struct livre *tail = malloc(sizeof(livre));
 	if (!tail) {
@@ -58,5 +75,6 @@ int main() {
 		return (1);
 	}
 
-	ajouter_livre(tail);
+	tail = ajouter_livre(tail);
+	afficher_livre(tail);
 }
