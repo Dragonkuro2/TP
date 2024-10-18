@@ -105,6 +105,64 @@ struct livre *supprimer_livre(struct livre *tail, int id) {
 	}
 }
 
+
+struct livre *recherche_livre(struct livre *tail, int id) {
+	if (!tail) {
+		printf("La liste est vide!\n");
+		return (NULL);
+	}
+
+	struct livre *current = tail;
+	do {
+		if (current->ID == id) {
+			return (current);
+		}
+		current = current->next;
+	} while (current != tail);
+
+	printf("L'élément n'existe pas!\n");
+	return (NULL);
+}
+
+
+struct livres *modifie_livres(struct livre *tail) {
+	int choose;
+	struct livre *current = tail;
+	int id;
+
+	printf("tu doit modifie qoui?\n");
+	printf("1: titre\n");
+	printf("2: auteur\n");
+	printf("3: disponible\n");
+	printf("entrer votre choix: ");
+	scanf("%d", &choose);
+	printf("entrer l'id de livre: ");
+	scanf("%d", &id);
+	current = recherche_livre(tail, id);
+	if (current) {
+		switch (choose) {
+			case 1:
+				printf("enter le nouveau titre: ");
+				fgets(current->title, sizeof(current->title), stdin);
+				current->title[strcspn(current->title, "\n")] = '\0';
+				return (tail);
+			case 2:
+				printf("entrer ke nouveau auteur: ");
+				fgets(current->author, sizeof(current->author), stdin);
+				current->author[strcspn(current->title, "\n")] = '\0';
+				return (tail);
+			case 3:
+				char dispo;
+				printf("est-ce que le livre est disponible? (entrer y s'il y'a disponible sinon entrer une autre littre): ");
+				scanf("%c", &dispo);
+				current->disponible = (dispo == "y");
+				return (tail);
+			default:
+				printf("le choix n'est pas valable\n");
+		}
+	}
+}
+
 int main() {
 	struct livre *tail = malloc(sizeof(livre));
 	if (!tail) {
@@ -135,7 +193,7 @@ int main() {
 				tail = supprimer_livre(tail, id);
 				break;
 			case 3:
-				printf("the function isn't working yet :(\n");
+				tail = modifie_livres(tail)
 				break;
 			case 4:
 				printf("the function isn't working yet :(\n");
