@@ -85,14 +85,14 @@ struct livre *supprimer_livre(struct livre *tail, int id) {
 				printf("la liste est vide mantenet!\n");
 				return (NULL);
 			}
-			return (currenti->next);
+			return (current->next);
 		}
 
-		while (current->next != tail && current->next->ID != data) {
+		while (current->next != tail && current->next->ID != id) {
 			current = current->next;
 		}
 
-		if (current->next->ID == data) {
+		if (current->next->ID == id) {
 			struct livre *to_delete = current->next;
 			current->next = current->next->next;
 			free(to_delete);
@@ -130,15 +130,15 @@ int main() {
 				int id;
 				do {
 					printf("Entrer l'id de livre (id est toujor > 0): ");
-					scanf("%d", id);
-				} while (id > 0);
+					scanf("%d", &id);
+				} while (id <= 0);
 				tail = supprimer_livre(tail, id);
 				break;
 			case 3:
-				pritnf("the function isn't working yet :(\n");
+				printf("the function isn't working yet :(\n");
 				break;
 			case 4:
-				pritnf("the function isn't working yet :(\n");
+				printf("the function isn't working yet :(\n");
 				break;
 			case 5:
 				afficher_livre(tail);
@@ -148,7 +148,7 @@ int main() {
 				break;
 			default:
 				printf("invalid option\n");
-				break
+				break;
 		}
 	} while(choose != 0);
 }
