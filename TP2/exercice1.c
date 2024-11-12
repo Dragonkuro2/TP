@@ -1,21 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 
 // programme de gestion d'action.
+typedef struct Action {
+        char string[100];
+        int type;
+} Action;
 
 typedef struct Stack {
 	Action action;
 	struct Stack *next;
 } Stack;
 
-typedef struct Action {
-	char string[100];
-	int type;
-} Action;
 
-
-ActionStack *ajouter(Action *action, Stack *top) {
+Stack *ajouter(Action *action, Stack *top) {
 	Stack *new_node = malloc(sizeof(Stack));
 	if (!new_node) {
 		printf("Error allocation de memoire.\n");
@@ -46,9 +45,9 @@ void afficher(Stack *top) {
 	if (!top) {
 		printf("le file est vide!.\n");
 	} else {
-		printf("L'historique des operation sont:")
+		printf("L'historique des operation sont:");
 		while (current->next) {
-			printf("le text \"%s\" a ete %s\n", top.action.string, type(top.action.type));
+			printf("le text \"%s\" a ete %s\n", top->action.string, type(top->action.type));
 			current = current->next;
 		}
 	}
@@ -57,7 +56,7 @@ int main() {
 	Stack *top = NULL;
 	Action *actions[4];
 	char *texts[] = {"first text", "second text", "third text", "fourth text"};
-	int types[] = {1, 2, 3, 4};
+	int types[] = {1, 2, 3, 2};
 
 	for (int i = 0; i < 4; i++) {
 		actions[i] = malloc(sizeof(Action));
