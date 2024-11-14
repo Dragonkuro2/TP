@@ -64,8 +64,8 @@ void undo(Stack **top, Stack **RedoStack) {
 }
 
 void redo(Stack **top, Stack **RedoStack) {
-	if (!*top) {
-		printf("la liste est deja vide!\n");
+	if (!*RedoStack) {
+		printf("il n'est y'a rien a refaire!\n");
 	} else {
 		Stack *current = *RedoStack;
 		*RedoStack = (*RedoStack)->next;
