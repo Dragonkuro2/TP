@@ -45,18 +45,42 @@ void afficher(Stack *top) {
 	if (!top) {
 		printf("le file est vide!.\n");
 	} else {
-		printf("L'historique des operation sont:");
-		while (current->next) {
-			printf("le text \"%s\" a ete %s\n", top->action.string, type(top->action.type));
+		printf("L'historique des operation sont:\n");
+		while (current) {
+			printf("le text \"%s\" a ete %s\n", current->action.string, type(current->action.type));
 			current = current->next;
 		}
 	}
 }
+void undo(Stack **top, Stack **RedoStack) {
+	if (!*top) {
+		printf("la liste est deja vide!\n");
+	} else {
+		Stack *current = *top;
+		*top = (*top)->next;
+		*RedoStack = ajouter(&current->action, *RedoStack);
+		afficher(*top);
+	}
+}
+
+void redo(Stack **top, Stack **RedoStack) {
+	if (!*top) {
+		printf("la liste est deja vide!\n");
+	} else {
+		Stack *current = *RedoStack;
+		*RedoStack = (*RedoStack)->next;
+		*top = ajouter(&current->action, *top);
+		afficher(*top);
+	}
+}
+
 int main() {
 	Stack *top = NULL;
 	Action *actions[4];
 	char *texts[] = {"first text", "second text", "third text", "fourth text"};
 	int types[] = {1, 2, 3, 2};
+	
+	Stack *RedoStack = NULL;
 
 	for (int i = 0; i < 4; i++) {
 		actions[i] = malloc(sizeof(Action));
@@ -71,6 +95,9 @@ int main() {
 	}
 
 	afficher(top);
+	undo(&top, &RedoStack);
+	undo(&top, &RedoStack);
+	redo(&top, &RedoStack);
 
 	return (0);
 }
