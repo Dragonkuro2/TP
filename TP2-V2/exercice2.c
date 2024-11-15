@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 
 typedef struct Function {
 	char name[80];
@@ -30,8 +30,11 @@ Function terminer_fonction(Node **top) {
 		exit(1);
 	}
 
-	Function current = (*top)->funcname;
+	Node *temp = *top;
+	Function current = temp->funcname;
 	*top = (*top)->next;
+	free(temp);
+
 	printf("la function '%s' est terminer.\n", current.name);
 	return (current);
 }
@@ -61,7 +64,15 @@ int main() {
 			case 1:
 				Function func;
 				printf("Entrer la fonction: ");
-				scanf("%s", func.name);
+				while (getchar() != '\n'); // Clear the input buffer if needed
+				fgets(func.name, sizeof(func.name), stdin);
+
+				// Remove the newline character from the input, if present
+				size_t len = strlen(func.name);
+				if (len > 0 && func.name[len - 1] == '\n') {
+					func.name[len - 1] = '\0';
+				}
+
 				appeler_fonction(&Stack, func);
 				break;
 			case 2:
@@ -76,6 +87,10 @@ int main() {
 				printf("Entrer une valide choix.\n");
 		}
 	} while (choix != 4);
+
+	while (Stack) {
+		terminer_fonction(&Stack);
+	};
 
 	return (0);
 }
