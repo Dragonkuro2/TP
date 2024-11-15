@@ -46,19 +46,36 @@ void fonction_active_actuelle(Node *top) {
 
 int main() {
 	Node *Stack = NULL;
+	int choix;
 
-	// exemples des functions
-	Function func1 = {"add(int num1, int num2)"};
-	Function func2 = {"delete(Node *top)"};
+	do {
+		printf("\t********** Menu **********\n\n");
+		printf("1. ajouter une fonction\n");
+		printf("2. terminer la derniere fonction\n");
+		printf("3. afficher la fonction actuelle\n");
+		printf("4. Quitter\n\n");
+		printf("Entrer votre choix: ");
+		scanf("%d", &choix);
 
-	// call push functions
-	appeler_fonction(&Stack, func1);
-	appeler_fonction(&Stack, func2);
+		switch (choix) {
+			case 1:
+				Function func;
+				printf("Entrer la fonction: ");
+				scanf("%s", func.name);
+				appeler_fonction(&Stack, func);
+				break;
+			case 2:
+				terminer_fonction(&Stack);
+				break;
+			case 3:
+				fonction_active_actuelle(Stack);
+				break;
+			case 4:
+				break;
+			default:
+				printf("Entrer une valide choix.\n");
+		}
+	} while (choix != 4);
 
-	// call pop functions
-	terminer_fonction(&Stack);
-
-	// call peek functions
-	fonction_active_actuelle(Stack);
 	return (0);
 }
