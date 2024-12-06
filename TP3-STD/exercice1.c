@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct contact {
 	char name [100];
@@ -38,6 +39,7 @@ Node *create_node(contact *contact) {
 	new_node->contact = *contact;
 	new_node->left = NULL;
 	new_node->right = NULL;
+	printf("new contact added.\n\tnom: %s\n\tnemuro: %u\n\n", contact->name, contact->num);
 
 	return (new_node);
 }
@@ -45,21 +47,45 @@ Node *create_node(contact *contact) {
 Node *insert(Node *tree, contact *contact) {
 	if (!tree) {
 		return (create_node(contact));
-	} else if (tree->contact.name > contact->name) {
+	} else if ( strcmp(tree->contact.name , contact->name) > 0) {
 		tree->left = insert(tree->left, contact);
 	} else {
 		tree->right = insert(tree->right, contact);
 	}
 	
-	printf("new contact added.\n\tnom: %s\n\tnemuro: %u\n\n", contact->name, contact->num);
 	return (tree);
 }
 
 int main() {
 	Node *tree = NULL;
+	int choix;
 
-	contact *Contact = getContact();
-	tree = insert(tree, Contact);
+	do {
+		printf("\t************ Menu: ************\n");
+		printf("1- Inserer une nouvelle contact\n");
+		printf("2- rechercher une contact\n");
+		printf("3- afficher tout les contacts\n");
+		printf("4- supprimer un contact\n");
+		printf("5- Quitter\n");
+		printf("\n\tEntrer votre choix: ");
+		scanf("%d", &choix);
 
+		switch (choix) {
+			case 1:
+				contact *Contact = getContact();
+				tree = insert(tree, Contact);
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			default:
+				printf("Entrer une valide option!\n\n");
+		}
+	} while (choix != 5);
 	return (0);
 }
