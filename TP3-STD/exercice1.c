@@ -85,18 +85,18 @@ void afficherAvecMessage(Node *tree) {
 
 Node *searchName(Node *tree, char *name) {
 	if (tree == NULL) {
-		printf("Contact non trouvé.\n");
+		printf("\nContact non trouvé.\n");
 		return NULL;
 	}
 
 	if (strcmp(tree->contact.name, name) > 0)
-		return (tree->left);
+		return searchName(tree->left, name);
 	else if (strcmp(tree->contact.name, name) < 0)
-		return (tree->right);
+		return searchName(tree->right, name);
 	else {
-		printf("Contact trouvé:\n");
-		printf("Nom: %s", tree->contact.name);
-		printf("Phone: %u", tree->contact.num);
+		printf("\nContact trouvé:\n");
+		printf("Nom: %s\n", tree->contact.name);
+		printf("Phone: %u\n", tree->contact.num);
 	}
 }
 
