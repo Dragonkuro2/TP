@@ -8,13 +8,13 @@ typedef struct contact {
 
 typedef struct Node {
 	contact contact;
-	Node *left;
-	Node *right;
+	struct Node *left;
+	struct Node *right;
 } Node;
 
 contact *getContact() {
 	contact *new_contact = malloc(sizeof(contact));
-	if (!contact) {
+	if (!new_contact) {
 		printf("Error allocation de memoire.\n");
 		exit(EXIT_FAILURE);
 	}
@@ -22,7 +22,7 @@ contact *getContact() {
 	printf("Entrer le nom de votre contact: ");
 	scanf("%s", new_contact->name);
 	printf("Entrer le nemuro de votre contact: ");
-	scanf("%u", new_contact->num);
+	scanf("%u", &new_contact->num);
 
 	return (new_contact);
 }
@@ -35,7 +35,7 @@ Node *create_node(contact *contact) {
 		exit(1);
 	}	
 
-	new_node->contact = contact;
+	new_node->contact = *contact;
 	new_node->left = NULL;
 	new_node->right = NULL;
 
@@ -45,7 +45,7 @@ Node *create_node(contact *contact) {
 Node *insert(Node *tree, contact *contact) {
 	if (!tree) {
 		return (create_node(contact));
-	} else if (tree->name > contact->name) {
+	} else if (tree->contact.name > contact->name) {
 		tree->left = insert(tree->left, contact);
 	} else {
 		tree->right = insert(tree->right, contact);
@@ -59,7 +59,7 @@ int main() {
 	Node *tree = NULL;
 
 	contact *Contact = getContact();
-	tree = insert(tree, contact);
+	tree = insert(tree, Contact);
 
 	return (0);
 }
