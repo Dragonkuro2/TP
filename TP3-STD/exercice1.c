@@ -2,17 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+// structur of the conatct
 typedef struct contact {
 	char name [100];
 	unsigned int num;
 } contact;
 
+// node of the contact
 typedef struct Node {
 	contact contact;
 	struct Node *left;
 	struct Node *right;
 } Node;
 
+// function that gets the information of the contact from the user
 contact *getContact() {
 	contact *new_contact = malloc(sizeof(contact));
 	if (!new_contact) {
@@ -28,6 +31,7 @@ contact *getContact() {
 	return (new_contact);
 }
 
+// function that create a new node of the contact tree
 Node *create_node(contact *contact) {
 	Node *new_node = malloc(sizeof(Node));
 	
@@ -44,6 +48,8 @@ Node *create_node(contact *contact) {
 	return (new_node);
 }
 
+
+// function that insert the new node to the list
 Node *insert(Node *tree, contact *contact) {
 	if (!tree) {
 		return (create_node(contact));
@@ -56,17 +62,52 @@ Node *insert(Node *tree, contact *contact) {
 	return (tree);
 }
 
-int afficher(Node *tree) {
-	if (!tree){
-		printf("la liste des contact est vide!\n");
-		return 0;
-	}
-	
+// recursive function that prints all the elements of the list
+void afficher(Node *tree) {
+	if (!tree)
+		return;
+
 	afficher(tree->left);
-	printf("\n\tNom: %s\nNemuro: %u\n", tree->contact.name, tree->contact.num);
+	printf("\nNom: %s\nNemuro: %u\n", tree->contact.name, tree->contact.num);
 	afficher(tree->right);
 }
 
+
+// this function shows an additional message that shows if the list is empty
+void afficherAvecMessage(Node *tree) {
+	if (!tree) {
+		printf("La liste est vide!\n");
+		return;
+	}
+
+	afficher(tree);
+}
+
+Node *searchName(Node *tree, char *name) {
+	if (tree == NULL) {
+		printf("Contact non trouvé.\n");
+		return NULL;
+	}
+
+	if (strcmp(tree->contact.name, name) > 0)
+		return (tree->left);
+	else if (strcmp(tree->contact.name, name) < 0)
+		return (tree->right);
+	else {
+		printf("Contact trouvé:\n");
+		printf("Nom: %s", tree->contact.name);
+		printf("Phone: %u", tree->contact.num);
+	}
+}
+
+void search(Node *tree) {
+	char name[30];
+	printf("Entrer le nom a chercher: ");
+	scanf("%s", name);
+	searchName(tree, name);
+}
+
+// main function
 int main() {
 	Node *tree = NULL;
 	int choix;
@@ -87,9 +128,10 @@ int main() {
 				tree = insert(tree, Contact);
 				break;
 			case 2:
+				search(tree);
 				break;
 			case 3:
-				afficher(tree);
+				afficherAvecMessage(tree);
 				break;
 			case 4:
 				break;
