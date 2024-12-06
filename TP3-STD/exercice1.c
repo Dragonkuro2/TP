@@ -83,6 +83,7 @@ void afficherAvecMessage(Node *tree) {
 	afficher(tree);
 }
 
+// function that search for the entred name
 Node *searchName(Node *tree, char *name) {
 	if (tree == NULL) {
 		printf("\nContact non trouvé.\n");
@@ -100,6 +101,7 @@ Node *searchName(Node *tree, char *name) {
 	}
 }
 
+// function that askes the user to enter what he is looking for
 void search(Node *tree) {
 	char name[30];
 	printf("Entrer le nom a chercher: ");
@@ -107,10 +109,45 @@ void search(Node *tree) {
 	searchName(tree, name);
 }
 
+Node *findLargestNode(Node *tree) {
+	if (tree == NULL || tree->right == NULL) {
+		return tree;
+	}
+
+	return findLargestNode(tree->right);
+}
+
+
+Node *delete(Node *tree, char *name) {
+	if (!tree)
+		printf("%s non trouve dans l'arbre\n");
+	else {
+		if (strcmp(name, tree->contact.name) < 0)
+			tree->left = delete(tree->right, name);
+		else if (strcmp(name, tree->contact.name) > 0) 
+			tree->right = delete(tree->right, name);
+		else {
+			if (tree->left && tree->right) {
+				Node *temp = findLargestNode(tree->left);
+				tree->contact.name = temp->contact.name;
+				tree->left = delete(tree->left, temp->contact.name);
+			} else {
+				Node *temp = tree;
+				if (tree->left)
+					tree = tree->left;
+				else
+					tree = tree->right;
+			}
+			tree(temp);
+		}
+	}
+}
+
 // main function
 int main() {
 	Node *tree = NULL;
 	int choix;
+	char nameDelete[40];
 
 	do {
 		printf("\t************ Menu: ************\n");
@@ -134,8 +171,12 @@ int main() {
 				afficherAvecMessage(tree);
 				break;
 			case 4:
+				printf("entrer le nom a supprimer: ");
+				scanf("%s", nameDelete);
+				delete(tree, nameDelete);
 				break;
 			case 5:
+				printf("See you next time!\n");
 				break;
 			default:
 				printf("Entrer une valide option!\n\n");
