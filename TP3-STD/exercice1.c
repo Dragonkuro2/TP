@@ -56,6 +56,17 @@ Node *insert(Node *tree, contact *contact) {
 	return (tree);
 }
 
+int afficher(Node *tree) {
+	if (!tree){
+		printf("la liste des contact est vide!\n");
+		return 0;
+	}
+	
+	afficher(tree->left);
+	printf("\n\tNom: %s\nNemuro: %u\n", tree->contact.name, tree->contact.num);
+	afficher(tree->right);
+}
+
 int main() {
 	Node *tree = NULL;
 	int choix;
@@ -78,6 +89,7 @@ int main() {
 			case 2:
 				break;
 			case 3:
+				afficher(tree);
 				break;
 			case 4:
 				break;
@@ -85,6 +97,7 @@ int main() {
 				break;
 			default:
 				printf("Entrer une valide option!\n\n");
+				break;
 		}
 	} while (choix != 5);
 	return (0);
